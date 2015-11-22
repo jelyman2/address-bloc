@@ -74,8 +74,8 @@ class MenuController
 
     entry_number = enter_entry_number
 
-    if entry_number < 0
-      puts "Invalid option: option given <= 0"
+    if entry_number < 0 || entry_number.is_a?(Integer)
+      puts "Invalid option: option not a valid entry or entry type"
       puts "Please try again. Press any key to continue..."
       gets
         view_entry_number
