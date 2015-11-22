@@ -8,12 +8,14 @@ class MenuController
   end
 
   def main_menu
+    system "clear"
     puts "Main Menu - #{@address_book.entries.count} entries"
     puts "1 - View all entries"
-    puts "2 - Create an entry"
-    puts "3 - Search for an entry"
-    puts "4 - Import entries from a CSV"
-    puts "5 - Exit"
+    puts "2 - View entry by number"
+    puts "3 - Create an entry"
+    puts "4 - Search for an entry"
+    puts "5 - Import entries from a CSV"
+    puts "6 - Exit"
     print "Enter your selection: "
 
     selection = gets.to_i
@@ -25,17 +27,21 @@ class MenuController
       main_menu
     when 2
       system "clear"
-      create_entry
+      view_entry_number
       main_menu
     when 3
       system "clear"
-      search_entries
+      create_entry
       main_menu
     when 4
       system "clear"
-      read_csv
+      search_entries
       main_menu
     when 5
+      system "clear"
+      read_csv
+      main_menu
+    when 6
       puts "Good-bye!"
       exit(0)
     else
@@ -54,6 +60,52 @@ class MenuController
 
     system "clear"
     puts "End of entries"
+  end
+
+  def view_entry_number
+    system "clear"
+
+    if @address_book.entries.count <= 0
+      puts "Invalid option: no entries found"
+      puts "Please try again. Press any key to continue"
+      gets
+        main_menu
+    end
+
+    entry_number = enter_entry_number
+
+    if entry_number < 0
+      puts "Invalid option: option given <= 0"
+      puts "Please try again. Press any key to continue..."
+      gets
+        view_entry_number
+    end
+
+    # try to display the entry using the entry_number (index) provided.
+    begin
+      puts @address_book.entries.fetch(entry_number).to_s
+
+    # if the entry index given is not found, IndexError is thrown. Catch it.
+    rescue IndexError
+      puts "Invalid option: entry not found. (INDEX_ERROR_EXCEPTION)"
+      puts "Please try again. Press any key to continue..."
+      gets
+        view_entry_number
+    end
+    print "Hit any key to continue or X/x to exit..."
+    option = gets.chomp
+
+    if option == "X" || option == "x"
+      exit(0)
+    end
+
+    system "clear"
+      view_entry_number
+  end
+
+  def enter_entry_number
+    print "Enter a number (starting from 0): "
+    entry = gets.to_i
   end
 
   def create_entry
