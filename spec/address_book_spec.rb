@@ -57,30 +57,61 @@ RSpec.describe AddressBook do
 
     it "imports the 2nd entry" do
       book.import_from_csv("entries.csv")
-      entry_one = book.entries[1]
+      entry_two = book.entries[1]
 
-      check_entry(entry_one, "Bob", "555-555-5415", "bob@blocmail.com")
+      check_entry(entry_two, "Bob", "555-555-5415", "bob@blocmail.com")
     end
 
     it "imports the 3rd entry" do
       book.import_from_csv("entries.csv")
-      entry_one = book.entries[2]
+      entry_three = book.entries[2]
 
-      check_entry(entry_one, "Joe", "555-555-3660", "joe@blocmail.com")
+      check_entry(entry_three, "Joe", "555-555-3660", "joe@blocmail.com")
     end
 
     it "imports the 4th entry" do
       book.import_from_csv("entries.csv")
-      entry_one = book.entries[3]
+      entry_four = book.entries[3]
 
-      check_entry(entry_one, "Sally", "555-555-4646", "sally@blocmail.com")
+      check_entry(entry_four, "Sally", "555-555-4646", "sally@blocmail.com")
     end
 
     it "imports the 5th entry" do
       book.import_from_csv("entries.csv")
-      entry_one = book.entries[4]
+      entry_five = book.entries[4]
 
-      check_entry(entry_one, "Sussie", "555-555-2036", "sussie@blocmail.com")
+      check_entry(entry_five, "Sussie", "555-555-2036", "sussie@blocmail.com")
     end
   end
+
+  describe "#import_from_csv" do
+    it "imports the correct number of entries from 2nd CSV" do
+      book.import_from_csv("entries_2.csv")
+      book_size = book.entries.size
+
+      expect(book_size).to eq(3)
+    end
+
+    it "imports the 1st entry" do
+      book.import_from_csv("entries_2.csv")
+      entry_one = book.entries[0]
+
+      check_entry(entry_one, "Jeff", "555-242-4242", "jeff.gordon@thenumber24car.com")
+    end
+
+    it "imports the 2nd entry" do
+      book.import_from_csv("entries_2.csv")
+      entry_two = book.entries[1]
+
+      check_entry(entry_two, "John", "555-555-5555", "john.doe@peoplewithoutnames.com")
+    end
+
+    it "imports the 3rd entry" do
+      book.import_from_csv("entries_2.csv")
+      entry_three = book.entries[2]
+
+      check_entry(entry_three, "Richard", "555-123-4567", "richard.branson@virgin.com")
+    end
+  end
+
 end
